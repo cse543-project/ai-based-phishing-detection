@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --danger: #ef476f;
+      --warning: #ffd166;
+      --success: #06d6a0;
+      --dark: #343a40;
+      --light: #f8f9fa;
+    }
+
+    body {
+      width: 420px;
+      padding: 20px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      color: #333;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header img {
+      height: 32px;
+      margin-right: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    h3 {
+      margin: 0;
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .current-url {
+      background-color: var(--light);
+      border-radius: 6px;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      border-left: 3px solid var(--primary);
+    }
+
+    #analyzeBtn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-weight: 500;
+      width: 100%;
+      transition: background-color 0.2s;
+      margin-bottom: 20px;
+    }
+
+    #analyzeBtn:hover {
+      background-color: #3051d3;
+    }
+
+    #analyzeBtn:disabled {
+      background-color: #a0a0a0;
+      cursor: not-allowed;
+    }
+
+    .loader {
+      border: 3px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 3px solid var(--primary);
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin-right: 12px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #statusMessages {
+      background-color: var(--light);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 20px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .status-item {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: white;
+      border-radius: 4px;
+      border-left: 3px solid var(--primary);
+      font-size: 13px;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #resultContent {
+      background-color: white;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .score {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .score-safe {
+      background-color: rgba(6, 214, 160, 0.15);
+      color: var(--success);
+    }
+
+    .score-warning {
+      background-color: rgba(255, 209, 102, 0.15);
+      color: #e6b800;
+    }
+
+    .score-danger {
+      background-color: rgba(239, 71, 111, 0.15);
+      color: var(--danger);
+    }
+
+    .score-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .big-score {
+      font-size: 36px;
+      font-weight: bold;
+      padding: 15px 25px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+
+    .score-label {
+      font-size: 14px;
+      margin-top: 8px;
+      color: var(--dark);
+    }
+
+    .recommendation {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .recommendation p {
+      margin-top: 5px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    /* Use SVG icons instead of emojis */
+    .icon-safe:before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2306d6a0'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+      margin-right: 5px;
+    }
+
+    .icon-warning:before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffd166'%3E%3Cpath d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+      margin-right: 5px;
+    }
+
+    .icon-danger:before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef476f'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+      margin-right: 5px;
+    }
+
+    .icon-error:before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef476f'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+      margin-right: 5px;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="icons/main.png" alt="Logo">
+    <h2>PhishGuard</h2>
+  </div>
+
+  <div class="current-url" id="currentUrl">
+    Loading current URL...
+  </div>
+
+  <button id="analyzeBtn">Analyze This Page</button>
+
+  <div id="results">
+    <div id="loading" style="display: none;">
+      <div id="statusMessages">
+        <div class="status-item">
+          <div style="display: flex; align-items: center;">
+            <div class="loader"></div>
+            <span>Initializing analysis...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="resultContent" style="display: none;"></div>
+  </div>
+
+  <div class="footer">
+    Protected by PhishGuard | Powered by LLM
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

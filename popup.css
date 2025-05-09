@@ -1,0 +1,38 @@
+/* Add this to your existing CSS in popup.html */
+.big-score {
+  font-size: 36px;
+  font-weight: bold;
+  padding: 15px 25px;
+  border-radius: 50px;
+  margin: 15px auto;
+  text-align: center;
+  display: inline-block;
+}
+
+.score-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.score-label {
+  font-size: 14px;
+  margin-top: 8px;
+  color: var(--dark);
+}
+
+.recommendation {
+  background-color: var(--light);
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 15px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.result-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
