@@ -4,7 +4,7 @@ PhishGuard is a Chrome extension that uses AI and VirusTotal to detect phishing 
 
 ## GitHub
 
-Public repository: [https://github.com/YourUsername/PhishGuard](https://github.com/YourUsername/PhishGuard)
+Public repository: [https://github.com/cse543-project/ai-based-phishing-detection](https://github.com/cse543-project/ai-based-phishing-detection)
 
 ## Table of Contents
 
