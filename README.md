@@ -100,7 +100,7 @@ Stored in Chrome `chrome.storage.local`:
 5. Open a Pull Request
 
 ## Authors
-1. Sai Teja Alasya
+1. Sai Teja Alasyam
 2. Akash Sateesha
 3. Vishal Lakshmi Narayanan
 4. Aarya Choudhary
